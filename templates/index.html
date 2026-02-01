@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>☕ Discover Your Perfect Drink</h2>
+    <p>Adjust the sliders to match your current mood or long-term preference.</p>
+
+    <form method="POST" action="{% url 'recommend' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="acidity">Acidity (산미): <span id="val-acidity">5.0</span></label>
+            <input type="range" id="acidity" name="acidity" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-acidity').innerText = this.value">
+        </div>
+
+        <div class="form-group">
+            <label for="body">Body (바디감): <span id="val-body">5.0</span></label>
+            <input type="range" id="body" name="body" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-body').innerText = this.value">
+        </div>
+
+        <div class="form-group">
+            <label for="sweetness">Sweetness (단맛): <span id="val-sweetness">5.0</span></label>
+            <input type="range" id="sweetness" name="sweetness" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-sweetness').innerText = this.value">
+        </div>
+
+        <div class="form-group">
+            <label for="bitterness">Bitterness (쓴맛): <span id="val-bitterness">5.0</span></label>
+            <input type="range" id="bitterness" name="bitterness" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-bitterness').innerText = this.value">
+        </div>
+
+        <div class="form-group">
+            <label for="aroma">Aroma (향): <span id="val-aroma">5.0</span></label>
+            <input type="range" id="aroma" name="aroma" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-aroma').innerText = this.value">
+        </div>
+
+        <div class="form-group">
+            <label for="texture">Texture (탄산/질감): <span id="val-texture">5.0</span></label>
+            <input type="range" id="texture" name="texture" min="0" max="10" step="0.5" value="5.0"
+                oninput="document.getElementById('val-texture').innerText = this.value">
+        </div>
+
+        <button type="submit" class="btn">Find My Drink</button>
+    </form>
+</div>
+{% endblock %}
