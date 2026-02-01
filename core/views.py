@@ -7,6 +7,9 @@ import numpy as np
 def index(request):
     return render(request, 'index.html')
 
+def preference_form(request):
+    return render(request, 'preference_form.html')
+
 def recommend(request):
     if request.method == 'POST':
         # 1. Capture User Input Vector from Form
@@ -22,7 +25,7 @@ def recommend(request):
                 0.0 
             ]
         except ValueError:
-            return render(request, 'index.html', {'error': 'Invalid input'})
+            return render(request, 'preference_form.html', {'error': 'Invalid input'})
 
         # 2. Load Data from DB
         items = Item.objects.all()
@@ -59,4 +62,4 @@ def recommend(request):
             'user_vector': user_vector
         })
 
-    return render(request, 'index.html')
+    return render(request, 'preference_form.html')

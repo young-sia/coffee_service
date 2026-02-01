@@ -6,20 +6,19 @@
     <p>Based on your taste profile (Acidity: {{ user_vector.0 }}, Body: {{ user_vector.1 }}...)</p>
 
     {% if recommendations %}
-    <ul style="list-style: none; padding: 0;">
+    <ul class="recommendation-list">
         {% for item, score in recommendations %}
-        <li style="border-bottom: 1px solid #333; padding: 15px 0;">
-            <h3 style="margin: 0 0 5px 0;">{{ item.name }} <small
-                    style="font-weight: normal; font-size: 0.8em; color: var(--primary);">{{ item.get_category_display
-                    }}</small></h3>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.9em;">Match Score: <strong>{{
-                    score|floatformat:2 }}%</strong></p>
-            <p style="margin: 5px 0 0 0;">{{ item.description }}</p>
+        <li>
+            <div class="rec-header">
+                <h3>{{ item.name }}</h3>
+                <small>{{ item.get_category_display }}</small>
+            </div>
+            <div class="rec-score">Match Score: <strong>{{ score|floatformat:2 }}%</strong></div>
+            <p>{{ item.description }}</p>
             {% if item.attributes %}
-            <div style="margin-top: 5px; font-size: 0.85em; color: #888;">
+            <div class="rec-tags">
                 {% for k, v in item.attributes.items %}
-                <span style="margin-right: 10px; background: #333; padding: 2px 6px; border-radius: 4px;">{{ k }}: {{ v
-                    }}</span>
+                <span>{{ k }}: {{ v }}</span>
                 {% endfor %}
             </div>
             {% endif %}

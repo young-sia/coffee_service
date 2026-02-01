@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-text">
+        <h2>Premium Taste Analysis</h2>
+        <p>Data-driven coffee curation based on your unique flavor profile.</p>
+    </div>
+</div>
+
+<!-- Preference Form -->
+<div class="card fade-in-up">
+    <div class="card-header">
+        <h2>🔬 Analyze Your Preference</h2>
+        <p>Adjust the parameters to define your ideal flavor vector.</p>
+    </div>
+
+    <form method="POST" action="{% url 'core:recommend' %}">
+        {% csrf_token %}
+
+        <div class="sliders-grid">
+            <div class="form-group">
+                <label for="acidity">Acidity <span>(산미)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="acidity" name="acidity" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-acidity').innerText = this.value">
+                    <span id="val-acidity" class="val-display">5.0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="body">Body <span>(바디감)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="body" name="body" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-body').innerText = this.value">
+                    <span id="val-body" class="val-display">5.0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="sweetness">Sweetness <span>(단맛)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="sweetness" name="sweetness" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-sweetness').innerText = this.value">
+                    <span id="val-sweetness" class="val-display">5.0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bitterness">Bitterness <span>(쓴맛)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="bitterness" name="bitterness" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-bitterness').innerText = this.value">
+                    <span id="val-bitterness" class="val-display">5.0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="aroma">Aroma <span>(향)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="aroma" name="aroma" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-aroma').innerText = this.value">
+                    <span id="val-aroma" class="val-display">5.0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="texture">Texture <span>(식감)</span></label>
+                <div class="range-wrapper">
+                    <input type="range" id="texture" name="texture" min="0" max="10" step="0.5" value="5.0"
+                        oninput="document.getElementById('val-texture').innerText = this.value">
+                    <span id="val-texture" class="val-display">5.0</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="submit" class="btn">Find My Drink</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

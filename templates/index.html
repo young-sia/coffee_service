@@ -1,50 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card">
-    <h2>☕ Discover Your Perfect Drink</h2>
-    <p>Adjust the sliders to match your current mood or long-term preference.</p>
+<div class="landing-container fade-in-up">
+    <!-- Left: Feature Image (Coffee Shop Interior) -->
+    <div class="landing-visual">
+        <img src="/static/images/coffee_img.jpg" alt="Coffee Shop Interior">
+        <div class="visual-overlay">
+            <h2>Let's make your journey with coffee</h2>
+        </div>
+    </div>
 
-    <form method="POST" action="{% url 'recommend' %}">
-        {% csrf_token %}
+    <!-- Right: Action Cards -->
+    <div class="landing-actions">
+        <!-- Card 1: Analysis -->
+        <div class="action-card primary-card">
+            <div class="card-content">
+                <h2>나의 커피 취향 <span class="highlight">프로필 분석</span></h2>
+                <p>너의 커피 취향 프로필 분석을<br>오늘 커피 철학도 논문의 입각.</p>
+                <!-- Links to the Preference Form -->
+                <a href="{% url 'core:preference_form' %}" class="btn btn-glow">내 프로필 보기</a>
 
-        <div class="form-group">
-            <label for="acidity">Acidity (산미): <span id="val-acidity">5.0</span></label>
-            <input type="range" id="acidity" name="acidity" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-acidity').innerText = this.value">
+                <!-- Decorative Chart graphic (Can be CSS or SVG) -->
+                <div class="chart-deco">
+                    <svg viewBox="0 0 100 30" class="wave-chart">
+                        <path d="M0,15 Q25,30 50,15 T100,15" fill="none" stroke="rgba(192, 128, 96, 0.3)"
+                            stroke-width="2" />
+                        <path d="M0,20 Q25,5 50,20 T100,20" fill="none" stroke="rgba(192, 128, 96, 0.5)"
+                            stroke-width="2" />
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="body">Body (바디감): <span id="val-body">5.0</span></label>
-            <input type="range" id="body" name="body" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-body').innerText = this.value">
+        <!-- Card 2: Quick Recommendation -->
+        <div class="action-card secondary-card">
+            <div class="card-content">
+                <h2>오늘의 기분에 맞춘 한 잔</h2>
+                <p>오늘의 기분에게 알맞는 추천입니다.</p>
+                <a href="{% url 'core:preference_form' %}" class="btn btn-light">오늘의 추천받기</a>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="sweetness">Sweetness (단맛): <span id="val-sweetness">5.0</span></label>
-            <input type="range" id="sweetness" name="sweetness" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-sweetness').innerText = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="bitterness">Bitterness (쓴맛): <span id="val-bitterness">5.0</span></label>
-            <input type="range" id="bitterness" name="bitterness" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-bitterness').innerText = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="aroma">Aroma (향): <span id="val-aroma">5.0</span></label>
-            <input type="range" id="aroma" name="aroma" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-aroma').innerText = this.value">
-        </div>
-
-        <div class="form-group">
-            <label for="texture">Texture (탄산/질감): <span id="val-texture">5.0</span></label>
-            <input type="range" id="texture" name="texture" min="0" max="10" step="0.5" value="5.0"
-                oninput="document.getElementById('val-texture').innerText = this.value">
-        </div>
-
-        <button type="submit" class="btn">Find My Drink</button>
-    </form>
+    </div>
 </div>
 {% endblock %}
