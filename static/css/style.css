@@ -36,6 +36,8 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    padding-top: 85px;
+    /* Prevent content hiding behind fixed header */
 }
 
 /* Scrollbar styling */
@@ -73,8 +75,12 @@ body {
     /* Add some padding */
     height: auto;
     /* Let content dictate height or set fixed */
+    /* Let content dictate height or set fixed */
     min-height: 80px;
-    position: sticky;
+    position: fixed;
+    /* Changed from sticky */
+    width: 100%;
+    /* Ensure full width */
     top: 0;
     z-index: 1000;
 }
@@ -570,4 +576,436 @@ h2+p {
     .card {
         padding: 24px;
     }
+}
+
+/* =========================================
+   Coffee Journey Page Styles (Redesign)
+   ========================================= */
+
+.journey-wrapper {
+    position: relative;
+    min-height: 80vh;
+    padding-bottom: 60px;
+    overflow: hidden;
+    /* Prevent spillover from absolute positioned elements */
+}
+
+/* Header */
+.journey-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 40px;
+}
+
+/* Phase Container Transitions */
+.phase-container {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    /* Stack them */
+    top: 180px;
+    /* Start below header */
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    /* Ignore clicks when hidden */
+    transform: scale(0.95);
+}
+
+.phase-container.active {
+    opacity: 1;
+    position: relative;
+    /* Return to flow */
+    top: auto;
+    left: auto;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.phase-container.hidden {
+    display: none;
+    /* Fully remove from flow for simplicity in JS */
+}
+
+/* --- Phase 1: World Map --- */
+.map-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    height: 500px;
+    /* Background for map visual if SVG fails or is transparent */
+    background: radial-gradient(circle at center, rgba(30, 30, 40, 0.5), transparent);
+    border-radius: 20px;
+}
+
+.world-map-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+.map-land {
+    fill: rgba(255, 255, 255, 0.05);
+    /* Subtle landmass */
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 1;
+    transition: all 0.5s ease;
+}
+
+/* Interactive Nodes */
+.map-node {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    /* Center on coordinate */
+    z-index: 10;
+}
+
+.node-dot {
+    width: 14px;
+    height: 14px;
+    background-color: var(--accent-warm);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px var(--accent-warm);
+    transition: transform 0.3s ease;
+}
+
+.node-pulse {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--accent-warm);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.node-label {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    text-shadow: 0 2px 5px #000;
+    pointer-events: none;
+}
+
+.map-node:hover .node-dot {
+    transform: translate(-50%, -50%) scale(1.3);
+    background-color: #fff;
+}
+
+.map-node:hover .node-label {
+    opacity: 1;
+    color: var(--accent-warm);
+}
+
+/* Popup Info Card */
+.info-popup {
+    position: absolute;
+    /* Positioned via JS relative to container */
+    width: 300px;
+    z-index: 100;
+    padding: 25px;
+    text-align: left;
+    border: 1px solid rgba(192, 128, 96, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.info-popup.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -100%) scale(0.9);
+}
+
+.info-popup h2 {
+    font-size: 1.5rem;
+    color: var(--accent-warm);
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.popup-stats {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+}
+
+.stat-row strong {
+    color: #fff;
+}
+
+.popup-desc {
+    font-size: 0.95rem;
+    color: #ddd;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.btn-close:hover {
+    color: #fff;
+}
+
+/* --- Phase 2: Tarot Cards --- */
+.terroir-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.btn-text:hover {
+    color: var(--accent-warm);
+}
+
+.tarot-grid {
+    display: flex;
+    /* Centered row */
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    perspective: 1000px;
+    /* Essential for 3D flip */
+}
+
+.tarot-card-wrapper {
+    width: 280px;
+    height: 420px;
+    animation: slideUp 0.8s ease-out backwards;
+    /* Entry animation */
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tarot-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    /* Key for 3D */
+    cursor: pointer;
+}
+
+.tarot-card-wrapper:hover .tarot-card {
+    transform: rotateY(180deg);
+}
+
+.tarot-front,
+.tarot-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background: #1e1e1e;
+    /* Fallback */
+    border: 1px solid rgba(192, 128, 96, 0.2);
+}
+
+/* Front Design */
+.tarot-front {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-visual {
+    flex: 3;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-pattern {
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+}
+
+.card-meta {
+    flex: 1;
+    background: linear-gradient(to top, #1a1a1d, #252525);
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.flag-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.card-meta h3 {
+    margin: 5px 0;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+}
+
+.origin-tag {
+    color: var(--accent-warm);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Back Design */
+.tarot-back {
+    background: linear-gradient(135deg, #252528, #1a1a1d);
+    transform: rotateY(180deg);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tarot-back h3 {
+    color: var(--accent-warm);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-top: 0;
+    text-align: center;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.score-high {
+    color: var(--accent-warm);
+    font-size: 1.2rem;
+}
+
+.tasting-notes {
+    margin-top: 25px;
+    font-style: italic;
+    color: #ccc;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Fixed Sub Navigation */
+.global-sub-nav {
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 81px;
+    /* Matches main-header height (approx 80px + border) */
+    z-index: 990;
+    /* Just below header's 1000 */
+    background: rgba(26, 26, 29, 0.95);
+    /* Deep dark bg */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(192, 128, 96, 0.2);
+    /* Copper accent border */
+    padding: 15px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+}
+
+.sub-nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
+.sub-nav-links a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s, transform 0.2s;
+    padding: 5px 10px;
+}
+
+.sub-nav-links a:hover {
+    color: var(--accent-warm);
+    /* Copper Gold */
+    transform: translateY(-2px);
+    text-shadow: 0 0 8px rgba(192, 128, 96, 0.4);
 }

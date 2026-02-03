@@ -3,12 +3,13 @@
 {% block content %}
 <div class="landing-container fade-in-up">
     <!-- Left: Feature Image (Coffee Shop Interior) -->
-    <div class="landing-visual">
+    <!-- Left: Feature Image (Coffee Shop Interior) -->
+    <a href="{% url 'core:coffee_journey' %}" class="landing-visual" style="display: block; text-decoration: none;">
         <img src="/static/images/coffee_img.jpg" alt="Coffee Shop Interior">
         <div class="visual-overlay">
             <h2>Let's make your journey with coffee</h2>
         </div>
-    </div>
+    </a>
 
     <!-- Right: Action Cards -->
     <div class="landing-actions">

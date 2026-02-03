@@ -7,6 +7,16 @@ import numpy as np
 def index(request):
     return render(request, 'index.html')
 
+def coffee_journey(request):
+    """
+    Renders the Coffee Journey page.
+    Future: Pass dynamic context for Continents, Terroir, and Masterclass sections.
+    """
+    # Context placeholders (can be populated from DB later)
+    context = {}
+    return render(request, 'coffee_journey.html', context)
+
+
 def preference_form(request):
     return render(request, 'preference_form.html')
 

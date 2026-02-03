@@ -1,0 +1,417 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Coffee Journey - Global Data Insight{% endblock %}
+
+{% block content %}
+<!-- User's Styles for Map Phase -->
+<style>
+    /* 1. Map Section Container */
+    /* Layout Adjustments for tighter spacing */
+    .journey-wrapper {
+        margin-top: -30px;
+        /* Counteract container padding */
+    }
+
+    .journey-header {
+        margin-bottom: 10px;
+        /* Pull map closer to header */
+        text-align: center;
+    }
+
+    .journey-header h1 {
+        margin-bottom: 5px;
+        line-height: 1.2;
+    }
+
+    .subtitle {
+        margin-top: 0;
+        color: #a0a0a0;
+        font-size: 1rem;
+    }
+
+    .map-section {
+        position: relative;
+        width: 100%;
+        height: 85vh;
+        /* Full immersive height */
+        overflow: hidden;
+        background-color: transparent;
+        /* Base background shows through */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 2. Premium Image Map Background */
+    .map-bg-image {
+        width: 90%;
+        max-width: 1400px;
+        height: auto;
+        object-fit: contain;
+        opacity: 0.9;
+        /* Premium Lab Glow: Copper Shadow */
+        filter: drop-shadow(0 0 12px rgba(192, 128, 96, 0.4));
+        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease;
+    }
+
+    /* Cinematic Hover Effect */
+    .map-section:hover .map-bg-image {
+        transform: scale(1.02);
+        filter: drop-shadow(0 0 25px rgba(192, 128, 96, 0.6));
+    }
+
+    /* 3. Interactive Data Nodes */
+    .map-point {
+        position: absolute;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* The Dot */
+    .dot {
+        width: 14px;
+        height: 14px;
+        background-color: #C08060;
+        /* Copper Gold Main */
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px rgba(192, 128, 96, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.8);
+        border: 2px solid #fff;
+        transition: all 0.4s ease;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* The Pulse Signal */
+    .pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        border: 1px solid #C08060;
+        border-radius: 50%;
+        opacity: 0;
+        animation: pulse-ring 2.5s infinite;
+        z-index: 1;
+    }
+
+    /* Label */
+    .label {
+        margin-top: 15px;
+        color: #f0f0f0;
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        opacity: 0.7;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        transform: translateY(0);
+    }
+
+    /* Interaction State */
+    .map-point:hover {
+        transform: translate(-50%, -55%) scale(1.1);
+    }
+
+    .map-point:hover .dot {
+        background-color: #E5B984;
+        /* Highlight Gold */
+        box-shadow: 0 0 0 6px rgba(229, 185, 132, 0.4), inset 0 0 8px rgba(255, 255, 255, 1);
+        border-color: #fff;
+    }
+
+    .map-point:hover .label {
+        opacity: 1;
+        color: #E5B984;
+        transform: translateY(3px);
+    }
+
+    @keyframes pulse-ring {
+        0% {
+            width: 14px;
+            height: 14px;
+            opacity: 1;
+            border-width: 2px;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+
+        100% {
+            width: 60px;
+            height: 60px;
+            opacity: 0;
+            border-width: 0px;
+        }
+    }
+
+    /* 4. Glassmorphism Info Card */
+    .info-card.glass-panel {
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        transform: translateX(-50%) translateY(30px);
+        width: 340px;
+        padding: 30px;
+
+        /* Glass Effect */
+        background: rgba(25, 25, 25, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(192, 128, 96, 0.25);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        border-radius: 16px;
+
+        text-align: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 100;
+    }
+
+    .info-card.glass-panel.active {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: all;
+    }
+
+    /* Card Typography */
+    .info-card h3 {
+        color: #C08060;
+        /* Copper */
+        margin: 0 0 12px 0;
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .info-card p {
+        font-size: 0.95rem;
+        color: #e0e0e0;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        font-weight: 300;
+    }
+
+    /* Button */
+    .btn-explore {
+        background: linear-gradient(135deg, #c08060 0%, #8a4b30 100%);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        color: white;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(192, 128, 96, 0.3);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .btn-explore:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(192, 128, 96, 0.5);
+        filter: brightness(1.1);
+    }
+</style>
+
+<div class="journey-wrapper">
+    <!-- Header -->
+    <header class="journey-header fade-in-down">
+        <h1 class="gradient-text">Global Coffee Insight</h1>
+        <p class="subtitle">Data-Driven Exploration of Terroir & Flavor</p>
+    </header>
+
+    <!-- Phase 1: Interactive Data Map (Premium Lab Style) -->
+    <section id="phase-global" class="phase-container active">
+        <div class="map-section">
+            <img src="{% static 'images/world_map.png' %}" class="map-bg-image" alt="World Map">
+
+            <!-- Interactive Nodes (Absolute Positioned) -->
+            <!-- Latin America -->
+            <div class="map-point" style="top: 62%; left: 32%;" onclick="showCard('latin')">
+                <div class="pulse"></div>
+                <div class="dot"></div>
+                <span class="label">LATIN AMERICA</span>
+            </div>
+
+            <!-- Africa -->
+            <div class="map-point" style="top: 55%; left: 53%;" onclick="showCard('africa')">
+                <div class="pulse"></div>
+                <div class="dot"></div>
+                <span class="label">AFRICA</span>
+            </div>
+
+            <!-- Asia Pacific -->
+            <div class="map-point" style="top: 48%; left: 76%;" onclick="showCard('asia')">
+                <div class="pulse"></div>
+                <div class="dot"></div>
+                <span class="label">ASIA PACIFIC</span>
+            </div>
+
+            <!-- Glassmorphism Info Card -->
+            <div id="info-card" class="info-card glass-panel">
+                <h3 id="card-title">Region</h3>
+                <p id="card-desc">Description</p>
+                <button class="btn-explore" onclick="goToDetails()">상세 탐사하기</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phase 2: Terroir Discovery (Tarot Cards) -->
+    <section id="phase-terroir" class="phase-container hidden">
+        <div class="terroir-header">
+            <button id="btn-back-map" class="btn-text"><i class="fas fa-arrow-left"></i> Return to Map</button>
+            <h2 id="selected-region-title">Regional Data</h2>
+        </div>
+
+        <div class="tarot-grid" id="tarot-grid">
+            <!-- Cards injected via JS -->
+        </div>
+    </section>
+</div>
+
+<!-- Combined Logic -->
+<script>
+    // Merged Data Store: User's Text + Expanded Country Data
+    const regionData = {
+        'africa': {
+            title: 'AFRICA',
+            desc: '인류와 커피의 기원. 화사한 꽃향기와 강렬한 과일 산미가 특징입니다.',
+            // Expansion for Phase 2
+            countries: [
+                { name: 'Ethiopia', flag: '🇪🇹', region: 'Yirgacheffe', process: 'Washed/Natural', alt: '2,000m', score: '88.5', notes: 'Jasmine, Blueberry' },
+                { name: 'Kenya', flag: '🇰🇪', region: 'Nyeri', process: 'Washed', alt: '1,800m', score: '89.0', notes: 'Black Currant, Tomato' },
+                { name: 'Rwanda', flag: '🇷🇼', region: 'Nyamasheke', process: 'Washed', alt: '1,700m', score: '86.0', notes: 'Red Apple, Floral' }
+            ]
+        },
+        'latin': {
+            title: 'LATIN AMERICA',
+            desc: '세계 최대의 커피 생산지. 고소한 견과류 풍미와 부드러운 단맛의 밸런스.',
+            countries: [
+                { name: 'Brazil', flag: '🇧🇷', region: 'Cerrado', process: 'Natural', alt: '1,100m', score: '83.0', notes: 'Peanut, Chocolate' },
+                { name: 'Colombia', flag: '🇨🇴', region: 'Huila', process: 'Washed', alt: '1,700m', score: '86.5', notes: 'Caramel, Orange' },
+                { name: 'Guatemala', flag: '🇬🇹', region: 'Antigua', process: 'Washed', alt: '1,600m', score: '85.0', notes: 'Spicy, Cocoa' }
+            ]
+        },
+        'asia': {
+            title: 'ASIA PACIFIC',
+            desc: '묵직한 바디감과 독특한 향신료의 풍미. 깊고 진한 대지의 맛.',
+            countries: [
+                { name: 'Indonesia', flag: '🇮🇩', region: 'Sumatra', process: 'Wet Hulled', alt: '1,300m', score: '84.0', notes: 'Earthy, Tobacco' },
+                { name: 'Vietnam', flag: '🇻🇳', region: 'Da Lat', process: 'Washed', alt: '1,500m', score: '82.5', notes: 'Nutty, Bold' },
+                { name: 'India', flag: '🇮🇳', region: 'Karnataka', process: 'Monsooned', alt: '1,100m', score: '81.0', notes: 'Woody, Spice' }
+            ]
+        }
+    };
+
+    let currentRegion = '';
+
+    // Phase 1: User's Show Card Logic
+    function showCard(region) {
+        const card = document.getElementById('info-card');
+        const title = document.getElementById('card-title');
+        const desc = document.getElementById('card-desc');
+
+        // 데이터 채우기
+        const data = regionData[region];
+        if (data) {
+            title.innerText = data.title;
+            desc.innerText = data.desc;
+            currentRegion = region;
+
+            // 카드 보이기 (애니메이션)
+            card.classList.remove('active');
+            void card.offsetWidth; // 리플로우 강제 (애니메이션 재시작용)
+            card.classList.add('active');
+        }
+    }
+
+    // Integrated Transition to Phase 2
+    function goToDetails() {
+        if (currentRegion) {
+            const phaseGlobal = document.getElementById('phase-global');
+            const phaseTerroir = document.getElementById('phase-terroir');
+
+            // Fade out Map
+            phaseGlobal.classList.remove('active');
+            phaseGlobal.classList.add('hidden');
+
+            setTimeout(() => {
+                // Load Phase 2 Data
+                renderTarotCards(currentRegion);
+                // Fade in Tarot
+                phaseTerroir.classList.remove('hidden');
+                void phaseTerroir.offsetWidth;
+                phaseTerroir.classList.add('active');
+            }, 300);
+        }
+    }
+
+    // Phase 2: Render Tarot Cards
+    function renderTarotCards(regionKey) {
+        const data = regionData[regionKey];
+        const grid = document.getElementById('tarot-grid');
+        const title = document.getElementById('selected-region-title');
+
+        title.textContent = `${data.title} Terroir`;
+        grid.innerHTML = '';
+
+        data.countries.forEach((country, index) => {
+            const cardDelay = index * 100;
+            grid.innerHTML += `
+            <div class="tarot-card-wrapper" style="animation-delay: ${cardDelay}ms">
+                <div class="tarot-card">
+                    <div class="tarot-front">
+                        <div class="card-visual" style="background-color: #2c2c2c; display:flex; align-items:center; justify-content:center;">
+                            <span style="font-size:3rem;">${country.flag}</span>
+                        </div>
+                        <div class="card-meta">
+                            <h3>${country.name}</h3>
+                            <p class="origin-tag">${country.region}</p>
+                        </div>
+                    </div>
+                    <div class="tarot-back">
+                        <h3>${country.name}</h3>
+                        <div class="data-row"><span>Process</span><strong>${country.process}</strong></div>
+                        <div class="data-row"><span>Altitude</span><strong>${country.alt}</strong></div>
+                        <div class="data-row"><span>Score</span><strong class="score-high">${country.score}</strong></div>
+                        <p class="tasting-notes">"${country.notes}"</p>
+                    </div>
+                </div>
+            </div>`;
+        });
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnBack = document.getElementById('btn-back-map');
+        const phaseGlobal = document.getElementById('phase-global');
+        const phaseTerroir = document.getElementById('phase-terroir');
+        const popup = document.getElementById('info-card');
+
+        // Back to Map
+        btnBack.addEventListener('click', () => {
+            phaseTerroir.classList.remove('active');
+            phaseTerroir.classList.add('hidden');
+
+            phaseGlobal.classList.remove('hidden');
+            setTimeout(() => phaseGlobal.classList.add('active'), 50);
+
+            popup.classList.remove('active');
+        });
+    });
+</script>
+{% endblock %}
