@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Main Content Area -->
+<div class="main-content-wrapper">
+    <!-- Header Title -->
+    <div class="header-title-area">
+        <div class="header-title">Smooth out your day, {Name}</div>
+    </div>
+
+    <!-- Black Curved Bottom Overlay -->
+    <div class="bottom-curve-overlay"></div>
+
+    <!-- Circular Action Buttons (Transparent with Bronze Border) -->
+    <div class="circular-buttons-container">
+        <!-- 1. Check Taste -->
+        <div class="circular-btn-wrapper">
+            <a href="{% url 'quiz' %}" class="circular-btn">
+                <i class="fa-solid fa-mug-hot"></i>
+            </a>
+            <span class="circular-btn-label">커피 취향<br>확인하기</span>
+        </div>
+
+        <!-- 2. Today's Rec (Drinks) -->
+        <div class="circular-btn-wrapper">
+            <a href="{% url 'daily_recommendation' %}" class="circular-btn">
+                <i class="fa-solid fa-glass-water"></i>
+            </a>
+            <span class="circular-btn-label">오늘의 커피<br>추천받기</span>
+        </div>
+
+        <!-- 3. Explore -->
+        <div class="circular-btn-wrapper">
+            <a href="#" class="circular-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <span class="circular-btn-label">커피에 대해<br>둘러보기</span>
+        </div>
+    </div>
+
+    <!-- Central Visual (Larger Size) -->
+    <img src="{% static 'images/center_home.png' %}" class="central-coffee-img" alt="Coffee">
+
+</div>
+{% endblock %}

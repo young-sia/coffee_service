@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}나만의 커피아지트{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=9">
+    <style>
+        /* Base overrides if needed */
+        body {
+            background-color: #f7f7f7;
+            /* Light gray background for the "phone" feel */
+            display: flex;
+            justify-content: center;
+            /* Center on desktop */
+            min-height: 100vh;
+        }
+
+        main {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 480px;
+            /* Mobile width */
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 0;
+            /* Reset padding */
+            margin: 0;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <div class="sidebar-menu">
+            <a href="{% url 'index' %}" class="sidebar-item">Coffee</a>
+            <a href="#" class="sidebar-item">Tea</a>
+            <a href="#" class="sidebar-item">Beverage</a>
+            <a href="#" class="sidebar-item">Food</a>
+        </div>
+    </div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+
+        <!-- Bottom Navigation (Global) -->
+        <div class="bottom-nav">
+            <!-- Left: Hamburger -->
+            <button class="nav-item" onclick="toggleSidebar()">
+                <i class="fa-solid fa-bars" style="color: #c08060;"></i>
+            </button>
+
+            <!-- Center: Home (Logo Button) -->
+            <a href="{% url 'index' %}" class="nav-item active">
+                <img src="{% static 'images/logo.png' %}" class="nav-img-logo" alt="Home">
+            </a>
+
+            <!-- Right: Profile -->
+            <div class="nav-item">
+                <i class="fa-regular fa-user" style="color: #c08060;"></i>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

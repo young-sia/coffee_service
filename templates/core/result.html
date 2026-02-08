@@ -1,0 +1,485 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .result-wrapper {
+        padding: 30px 20px;
+        padding-bottom: 120px;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    /* Main Heading */
+    .result-heading {
+        color: var(--title-color);
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 40px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Title Badge Container */
+    .title-container {
+        max-width: 400px;
+        margin: 0 auto 50px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        border: 2px solid var(--accent-color);
+        border-radius: 15px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .title-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(192, 128, 96, 0.1) 0%, transparent 70%);
+        animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+
+        0%,
+        100% {
+            opacity: 0.5;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+    }
+
+    .title-label {
+        color: var(--accent-color);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+    }
+
+    .title-badge {
+        color: var(--title-color);
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        text-shadow: 0 0 20px rgba(229, 199, 131, 0.5);
+        position: relative;
+        z-index: 1;
+        letter-spacing: 2px;
+    }
+
+    .title-decoration {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .title-description {
+        color: var(--text-color);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 20px 0 0 0;
+        position: relative;
+        z-index: 1;
+        opacity: 0.95;
+    }
+
+    .title-decoration i {
+        color: var(--accent-color);
+        font-size: 1.5rem;
+        opacity: 0.6;
+    }
+
+    /* Recommendations Section */
+    .recommendations-heading {
+        color: var(--title-color);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .recommendations-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 400px;
+        margin: 0 auto 40px;
+    }
+
+    /* Coffee Card (Tarot Style) */
+    .coffee-card {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        border: 2px solid var(--accent-color);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .coffee-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(192, 128, 96, 0.1), transparent);
+        transition: left 0.5s;
+    }
+
+    .coffee-card:hover::before {
+        left: 100%;
+    }
+
+    .coffee-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(192, 128, 96, 0.4);
+        border-color: var(--title-color);
+    }
+
+    .coffee-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .coffee-card-placeholder {
+        width: 100%;
+        height: 200px;
+        background: #333;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+    }
+
+    .coffee-card-name {
+        color: var(--title-color);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .coffee-card-description {
+        color: var(--text-color);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Expert Mode Button */
+    .expert-mode-section {
+        margin: 50px auto;
+        max-width: 400px;
+    }
+
+    .expert-mode-prompt {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+
+    .expert-mode-btn {
+        background: linear-gradient(135deg, var(--accent-color), var(--title-color));
+        border: none;
+        color: #000;
+        padding: 15px 40px;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(192, 128, 96, 0.4);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .expert-mode-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(192, 128, 96, 0.6);
+    }
+
+    .expert-mode-btn:active {
+        transform: translateY(-1px);
+    }
+
+    /* Retry Button */
+    .retry-btn {
+        background: transparent;
+        border: 2px solid var(--accent-color);
+        color: var(--text-color);
+        padding: 12px 30px;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .retry-btn:hover {
+        background: rgba(192, 128, 96, 0.2);
+        border-color: var(--title-color);
+        color: var(--title-color);
+    }
+
+    /* Slide Up Animation - Natural bottom-to-top */
+    @keyframes slideUp {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-merge {
+        animation: slideUp 0.6s ease-out;
+    }
+
+    /* Expert Toggle Container */
+    .expert-toggle-container {
+        text-align: center;
+        margin: 30px 0 20px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .toggle-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .toggle-text {
+        color: var(--text-color);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .toggle-checkbox {
+        display: none;
+    }
+
+    .toggle-slider {
+        position: relative;
+        width: 50px;
+        height: 26px;
+        background: rgba(192, 128, 96, 0.3);
+        border-radius: 13px;
+        transition: background 0.3s ease;
+        border: 1px solid rgba(192, 128, 96, 0.5);
+    }
+
+    .toggle-slider::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--text-color);
+        top: 2px;
+        left: 3px;
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-checkbox:checked+.toggle-slider {
+        background: var(--accent-color);
+        border-color: var(--title-color);
+    }
+
+    .toggle-checkbox:checked+.toggle-slider::before {
+        transform: translateX(24px);
+        background: var(--title-color);
+    }
+
+    /* Expert Details */
+    .expert-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .expert-details.active {
+        max-height: 400px;
+        opacity: 1;
+    }
+
+    .expert-attributes {
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(192, 128, 96, 0.3);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+
+    .attribute-item {
+        margin-bottom: 20px;
+    }
+
+    .attribute-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .attribute-label {
+        display: block;
+        color: var(--text-color);
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .attribute-bar {
+        width: 100%;
+        height: 10px;
+        background: rgba(192, 128, 96, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .attribute-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent-color), var(--title-color));
+        border-radius: 5px;
+        transition: width 0.8s ease;
+        box-shadow: 0 0 10px rgba(229, 199, 131, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="result-wrapper">
+    <!-- Main Heading -->
+    <h1 class="result-heading animate-merge">내 커피 아지트는?</h1>
+
+    <!-- Title Badge (replaces chart for general users) -->
+    <div class="title-container animate-merge" style="animation-delay: 0.2s;">
+
+        <h2 class="title-badge">{{ title }}</h2>
+        <p class="title-description">{{ description }}</p>
+        <div class="title-decoration">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-moon"></i>
+            <i class="fa-solid fa-star"></i>
+        </div>
+    </div>
+
+    <!-- Expert Mode Toggle -->
+    <div class="expert-toggle-container animate-merge" style="animation-delay: 0.3s;">
+        <label class="toggle-label">
+            <span class="toggle-text">전문가 설명 엿보기</span>
+            <input type="checkbox" id="expertToggle" class="toggle-checkbox">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+
+    <!-- Expert Details (Hidden by default) -->
+    <div class="expert-details" id="expertDetails">
+        <div class="expert-attributes">
+            <div class="attribute-item">
+                <span class="attribute-label">신맛</span>
+                <div class="attribute-bar">
+                    <div class="attribute-fill" style="width: {{ scores.acidity|floatformat:0 }}0%"></div>
+                </div>
+            </div>
+            <div class="attribute-item">
+                <span class="attribute-label">쓴맛</span>
+                <div class="attribute-bar">
+                    <div class="attribute-fill" style="width: {{ scores.bitterness|floatformat:0 }}0%"></div>
+                </div>
+            </div>
+            <div class="attribute-item">
+                <span class="attribute-label">진한 정도</span>
+                <div class="attribute-bar">
+                    <div class="attribute-fill" style="width: {{ scores.body|floatformat:0 }}0%"></div>
+                </div>
+            </div>
+            <div class="attribute-item">
+                <span class="attribute-label">향</span>
+                <div class="attribute-bar">
+                    <div class="attribute-fill" style="width: {{ scores.aroma|floatformat:0 }}0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <h2 class="recommendations-heading animate-merge" style="animation-delay: 0.4s;">추천 커피</h2>
+    <div class="recommendations-container">
+        {% for p in recommendations %}
+        <div class="coffee-card animate-merge"
+            style="animation-delay: {{ forloop.counter|add:4|stringformat:'d' }}00ms;">
+            {% if p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="coffee-card-image">
+            {% else %}
+            <div class="coffee-card-placeholder">
+                <i class="fa-solid fa-mug-hot" style="font-size: 3rem; color: var(--accent-color);"></i>
+            </div>
+            {% endif %}
+            <h4 class="coffee-card-name">{{ p.name }}</h4>
+            <p class="coffee-card-description">{{ p.description }}</p>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-color);">아직 등록된 커피 데이터가 없습니다.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Expert Mode Section -->
+    <div class="expert-mode-section animate-merge" style="animation-delay: 0.8s;">
+        <p class="expert-mode-prompt">더 자세히 알아볼까요?</p>
+        <a href="{% url 'expert_quiz' %}" class="expert-mode-btn">전문가 모드 시작하기</a>
+    </div>
+
+    <!-- Retry Button -->
+    <div>
+        <a href="{% url 'quiz' %}" class="retry-btn">다시 하기</a>
+    </div>
+</div>
+
+<script>
+    // Expert Toggle Functionality
+    const expertToggle = document.getElementById('expertToggle');
+    const expertDetails = document.getElementById('expertDetails');
+
+    expertToggle.addEventListener('change', function () {
+        if (this.checked) {
+            expertDetails.classList.add('active');
+        } else {
+            expertDetails.classList.remove('active');
+        }
+    });
+</script>
+{% endblock %}

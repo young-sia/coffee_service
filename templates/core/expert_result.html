@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .result-wrapper {
+        padding: 30px 20px;
+        padding-bottom: 120px;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .expert-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--title-color), var(--accent-color));
+        color: #000;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .result-heading {
+        color: var(--title-color);
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 40px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .chart-container {
+        max-width: 400px;
+        margin: 0 auto 50px;
+        background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);
+        border: 2px solid var(--title-color);
+        border-radius: 15px;
+        padding: 30px 20px;
+        box-shadow: 0 10px 40px rgba(229, 199, 131, 0.4);
+    }
+
+    .chart-title {
+        color: var(--title-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .recommendations-heading {
+        color: var(--title-color);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .recommendations-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 400px;
+        margin: 0 auto 40px;
+    }
+
+    .coffee-card {
+        background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);
+        border: 2px solid var(--title-color);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(229, 199, 131, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .coffee-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(229, 199, 131, 0.5);
+    }
+
+    .coffee-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .coffee-card-placeholder {
+        width: 100%;
+        height: 200px;
+        background: #333;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .coffee-card-name {
+        color: var(--title-color);
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .coffee-card-description {
+        color: var(--text-color);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .retry-btn {
+        background: transparent;
+        border: 2px solid var(--title-color);
+        color: var(--text-color);
+        padding: 12px 30px;
+        border-radius: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .retry-btn:hover {
+        background: rgba(229, 199, 131, 0.2);
+        color: var(--title-color);
+    }
+
+    @keyframes cardMerge {
+        0% {
+            opacity: 0;
+            transform: scale(0.5) rotate(-10deg);
+        }
+
+        50% {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .animate-merge {
+        animation: cardMerge 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="result-wrapper">
+    <!-- Expert Badge -->
+    <div class="expert-badge animate-merge">전문가 분석 완료</div>
+
+    <!-- Main Heading -->
+    <h1 class="result-heading animate-merge" style="animation-delay: 0.1s;">내 아지트는 어디에?</h1>
+
+    <!-- Flavor Profile Chart -->
+    <div class="chart-container animate-merge" style="animation-delay: 0.2s;">
+        <h3 class="chart-title">정밀 분석된 커피 취향 프로필</h3>
+        <canvas id="flavorChart"></canvas>
+    </div>
+
+    <!-- Recommendations -->
+    <h2 class="recommendations-heading animate-merge" style="animation-delay: 0.4s;">맞춤 추천 커피</h2>
+    <div class="recommendations-container">
+        {% for p in recommendations %}
+        <div class="coffee-card animate-merge"
+            style="animation-delay: {{ forloop.counter|add:4|stringformat:'d' }}00ms;">
+            {% if p.image %}
+            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="coffee-card-image">
+            {% else %}
+            <div class="coffee-card-placeholder">
+                <i class="fa-solid fa-mug-hot" style="font-size: 3rem; color: var(--title-color);"></i>
+            </div>
+            {% endif %}
+            <h4 class="coffee-card-name">{{ p.name }}</h4>
+            <p class="coffee-card-description">{{ p.description }}</p>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-color);">아직 등록된 커피 데이터가 없습니다.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Retry Button -->
+    <div>
+        <a href="{% url 'quiz' %}" class="retry-btn">처음부터 다시 하기</a>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    const ctx = document.getElementById('flavorChart').getContext('2d');
+    const flavorChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: {{ chart_data.labels | safe }},
+    datasets: [{
+        label: '나의 취향',
+        data: {{ chart_data.values | safe }},
+        backgroundColor: 'rgba(229, 199, 131, 0.2)',
+        borderColor: '#e5c783',
+        borderWidth: 3,
+        pointBackgroundColor: '#e5c783',
+        pointBorderColor: '#c08060',
+        pointHoverBackgroundColor: '#e5c783',
+        pointHoverBorderColor: '#c08060',
+        pointRadius: 6,
+        pointHoverRadius: 8
+            }]
+        },
+    options: {
+        responsive: true,
+            maintainAspectRatio: true,
+                scales: {
+            r: {
+                beginAtZero: true,
+                    ticks: {
+                    color: '#e5c783',
+                        backdropColor: 'transparent',
+                            stepSize: 2
+                },
+                grid: {
+                    color: 'rgba(229, 199, 131, 0.3)'
+                },
+                pointLabels: {
+                    color: '#e5c783',
+                        font: {
+                        size: 13,
+                            weight: '700'
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+    });
+</script>
+{% endblock %}

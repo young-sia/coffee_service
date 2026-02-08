@@ -1,0 +1,454 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css" rel="stylesheet">
+
+<style>
+    /* Quiz Wrapper */
+    .quiz-wrapper {
+        padding: 20px;
+        padding-bottom: 100px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+
+
+    /* Progress Bar */
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(192, 128, 96, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 40px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #c08060, #e5c783);
+        width: 0%;
+        transition: width 0.4s ease;
+    }
+
+    /* Question Section */
+    .question-section {
+        position: relative;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .question-section.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .question-header {
+        text-align: center;
+        margin-bottom: 60px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 30px 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(192, 128, 96, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .question-title {
+        color: var(--title-color);
+        font-family: 'Cormorant', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1.4;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Tarot Cards Container - PC Mode (default) */
+    .tarot-cards-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: nowrap;
+        padding: 0 20px;
+    }
+
+    /* Individual Tarot Card - PC Mode */
+    .tarot-card {
+        width: 160px;
+        height: 240px;
+        background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(42, 42, 42, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        border: 1.5px solid rgba(192, 128, 96, 0.5);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Card Back Design */
+    .card-back {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .card-icon {
+        font-size: 3.5rem;
+        color: var(--accent-color);
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+
+    .card-label {
+        color: var(--text-color);
+        font-family: 'SUIT', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.4;
+        word-break: keep-all;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Hover Effect - PC Mode */
+    .tarot-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        border-color: rgba(229, 199, 131, 0.8);
+        box-shadow: 0 15px 40px rgba(192, 128, 96, 0.5),
+            0 0 30px rgba(192, 128, 96, 0.3);
+    }
+
+    .tarot-card:hover .card-icon {
+        color: var(--title-color);
+        opacity: 1;
+    }
+
+    /* Selected State - Pull then Stand Animation */
+    .tarot-card.selected {
+        background: linear-gradient(135deg, rgba(192, 128, 96, 0.4), rgba(229, 199, 131, 0.3));
+        border-color: var(--title-color);
+        box-shadow: 0 15px 50px rgba(229, 199, 131, 0.7);
+        animation: cardPullStand 1s ease-out forwards;
+    }
+
+    /* Card Pull Animation - Simple pull up */
+    @keyframes cardPullStand {
+        0% {
+            transform: translateY(0) scale(1);
+        }
+
+        100% {
+            transform: translateY(-50px) scale(1.2);
+        }
+    }
+
+    /* Card Corner Decorations */
+    .card-corner {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgba(192, 128, 96, 0.5);
+    }
+
+    .card-corner.top-left {
+        top: 8px;
+        left: 8px;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .card-corner.top-right {
+        top: 8px;
+        right: 8px;
+        border-left: none;
+        border-bottom: none;
+    }
+
+    .card-corner.bottom-left {
+        bottom: 8px;
+        left: 8px;
+        border-right: none;
+        border-top: none;
+    }
+
+    .card-corner.bottom-right {
+        bottom: 8px;
+        right: 8px;
+        border-left: none;
+        border-top: none;
+    }
+
+    /* Mobile Optimization - 3D Perspective Layout */
+    @media (max-width: 600px) {
+        .question-header {
+            margin-bottom: 40px;
+            padding: 25px 15px;
+        }
+
+        .question-title {
+            font-size: 1.6rem;
+        }
+
+        /* 3D Perspective Container */
+        .tarot-cards-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0;
+            padding: 0;
+            min-height: 280px;
+            position: relative;
+        }
+
+        .tarot-card {
+            width: 120px;
+            height: 200px;
+            padding: 15px;
+            flex-shrink: 0;
+        }
+
+        .card-icon {
+            font-size: 2.8rem;
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+        }
+
+        /* Left Card - Rotated and positioned */
+        .tarot-card:nth-child(1) {
+            transform: rotateY(15deg) rotateZ(-8deg) translateX(15px);
+            z-index: 1;
+        }
+
+        /* Center Card - Elevated and larger */
+        .tarot-card:nth-child(2) {
+            transform: translateY(-20px) scale(1.1);
+            z-index: 3;
+            box-shadow: 0 20px 40px rgba(192, 128, 96, 0.5);
+        }
+
+        /* Right Card - Rotated and positioned */
+        .tarot-card:nth-child(3) {
+            transform: rotateY(-15deg) rotateZ(8deg) translateX(-15px);
+            z-index: 1;
+        }
+
+        /* Mobile Hover - Simplified */
+        .tarot-card:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .tarot-card:nth-child(1):hover {
+            transform: rotateY(15deg) rotateZ(-8deg) translateX(15px) translateY(-10px) scale(1.05);
+        }
+
+        .tarot-card:nth-child(2):hover {
+            transform: translateY(-30px) scale(1.15);
+        }
+
+        .tarot-card:nth-child(3):hover {
+            transform: rotateY(-15deg) rotateZ(8deg) translateX(-15px) translateY(-10px) scale(1.05);
+        }
+
+        /* Selected state on mobile - Pull then Stand */
+        .tarot-card.selected {
+            animation: cardPullStandMobile 1s ease-out forwards;
+        }
+
+        .tarot-card:nth-child(1).selected {
+            animation: cardPullStandLeft 1s ease-out forwards;
+        }
+
+        .tarot-card:nth-child(2).selected {
+            animation: cardPullStandCenter 1s ease-out forwards;
+        }
+
+        .tarot-card:nth-child(3).selected {
+            animation: cardPullStandRight 1s ease-out forwards;
+        }
+
+        @keyframes cardPullStandLeft {
+            0% {
+                transform: rotateY(15deg) rotateZ(-8deg) translateX(15px);
+            }
+
+            100% {
+                transform: rotateY(0deg) rotateZ(0deg) translateX(0) translateY(-60px) scale(1.2);
+            }
+        }
+
+        @keyframes cardPullStandCenter {
+            0% {
+                transform: translateY(-20px) scale(1.1);
+            }
+
+            100% {
+                transform: translateY(-80px) scale(1.25);
+            }
+        }
+
+        @keyframes cardPullStandRight {
+            0% {
+                transform: rotateY(-15deg) rotateZ(8deg) translateX(-15px);
+            }
+
+            100% {
+                transform: rotateY(0deg) rotateZ(0deg) translateX(0) translateY(-60px) scale(1.2);
+            }
+        }
+    }
+
+    /* Hide default question cards */
+    .quiz-container {
+        position: relative;
+    }
+
+    .quiz-container>div {
+        display: none;
+    }
+
+    .quiz-container>div.active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="quiz-wrapper">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Quiz Form -->
+    <form id="quiz-form" method="POST" action="{% url 'quiz_result' %}">
+        {% csrf_token %}
+        <div class="quiz-container" id="quiz-container">
+            {% for q in questions %}
+            <div class="question-section" data-index="{{ forloop.counter0 }}">
+                <!-- Question Header -->
+                <div class="question-header">
+                    <h2 class="question-title">{{ q.text }}</h2>
+                </div>
+
+                <!-- Tarot Cards -->
+                <div class="tarot-cards-container">
+                    {% for c in q.choices.all %}
+                    <div class="tarot-card" onclick="selectCard({{ c.id }}, this, {{ forloop.counter0 }})">
+                        <div class="card-corner top-left"></div>
+                        <div class="card-corner top-right"></div>
+                        <div class="card-corner bottom-left"></div>
+                        <div class="card-corner bottom-right"></div>
+
+                        <div class="card-back">
+                            <i class="fa-solid fa-moon card-icon"></i>
+                            <div class="card-label">{{ c.text }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Hidden input for this question's answer -->
+                <input type="hidden" name="q_{{ q.id }}" id="input_q_{{ q.id }}">
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+
+<script>
+    let currentStep = 0;
+    const totalSteps = parseInt("{{ questions|length }}");
+    const sections = document.querySelectorAll('.question-section');
+    const progressFill = document.getElementById('progress-fill');
+    const form = document.getElementById('quiz-form');
+
+    // Icons for each card position
+    const cardIcons = ['fa-moon', 'fa-sun', 'fa-star'];
+
+    function showSection(index) {
+        sections.forEach((section, i) => {
+            section.classList.remove('active');
+            if (i === index) {
+                section.classList.add('active');
+            }
+        });
+        updateProgress();
+    }
+
+    function updateProgress() {
+        if (totalSteps > 0) {
+            const pct = ((currentStep) / totalSteps) * 100;
+            progressFill.style.width = pct + '%';
+        }
+    }
+
+    function selectCard(choiceId, cardElement, cardIndex) {
+        const currentSection = sections[currentStep];
+        const allCards = currentSection.querySelectorAll('.tarot-card');
+
+        // Disable all cards
+        allCards.forEach(c => c.style.pointerEvents = 'none');
+
+        // Mark selected
+        cardElement.classList.add('selected');
+
+        // Store answer
+        const input = currentSection.querySelector('input[type="hidden"]');
+        input.value = choiceId;
+
+        // Move to next after animation completes (1s animation)
+        setTimeout(() => {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                showSection(currentStep);
+            } else {
+                // Finished
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            }
+        }, 800); // Animation duration
+    }
+
+    // Initialize - set different icons for each card
+    sections.forEach((section, sectionIndex) => {
+        const cards = section.querySelectorAll('.tarot-card');
+        cards.forEach((card, cardIndex) => {
+            const icon = card.querySelector('.card-icon');
+            icon.className = `fa-solid ${cardIcons[cardIndex % cardIcons.length]} card-icon`;
+        });
+    });
+
+    // Show first section
+    if (sections.length > 0) {
+        showSection(0);
+    }
+</script>
+{% endblock %}

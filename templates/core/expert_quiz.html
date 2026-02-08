@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    /* Reuse quiz styles */
+    .quiz-wrapper {
+        padding: 20px;
+        padding-bottom: 100px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .expert-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .expert-title {
+        color: var(--title-color);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .expert-subtitle {
+        color: var(--text-color);
+        font-size: 0.95rem;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(192, 128, 96, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #e5c783, #c08060);
+        width: 0%;
+        transition: width 0.4s ease;
+    }
+
+    .quiz-container {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        perspective: 1000px;
+        min-height: 500px;
+    }
+
+    .question-card {
+        position: absolute;
+        width: 90%;
+        max-width: 350px;
+        background: linear-gradient(135deg, #2a1a1a 0%, #3a2a2a 100%);
+        border: 2px solid var(--title-color);
+        border-radius: 15px;
+        padding: 30px 20px;
+        box-shadow: 0 10px 40px rgba(229, 199, 131, 0.3);
+        transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        opacity: 0;
+        transform: translateX(100%) rotateY(-15deg) scale(0.8);
+        pointer-events: none;
+        backface-visibility: hidden;
+    }
+
+    .question-card.active {
+        opacity: 1;
+        transform: translateX(0) rotateY(0) scale(1);
+        pointer-events: all;
+        z-index: 10;
+    }
+
+    .question-card.prev {
+        opacity: 0;
+        transform: translateX(-100%) rotateY(15deg) scale(0.8);
+    }
+
+    .question-number {
+        color: var(--title-color);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .question-text {
+        color: var(--title-color);
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+        line-height: 1.4;
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .choice-btn {
+        background: transparent;
+        border: 2px solid var(--title-color);
+        color: var(--text-color);
+        padding: 15px 20px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .choice-btn:hover {
+        background: rgba(229, 199, 131, 0.2);
+        color: var(--title-color);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(229, 199, 131, 0.3);
+    }
+
+    .card-decoration {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: var(--title-color);
+        border-radius: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="quiz-wrapper">
+    <!-- Expert Mode Header -->
+    <div class="expert-header">
+        <h2 class="expert-title">전문가 모드</h2>
+        <p class="expert-subtitle">더 정확한 분석을 위한 추가 질문입니다</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Quiz Form -->
+    <form id="quiz-form" method="POST" action="{% url 'expert_result' %}">
+        {% csrf_token %}
+        <div class="quiz-container" id="quiz-container">
+            {% for q in questions %}
+            <div class="question-card" data-index="{{ forloop.counter0 }}">
+                <div class="card-decoration"></div>
+                <div class="question-number">Expert Q{{ forloop.counter }} / {{ questions|length }}</div>
+                <h3 class="question-text">{{ q.text }}</h3>
+                <div class="choices">
+                    {% for c in q.choices.all %}
+                    <button type="button" class="choice-btn" onclick="selectChoice({{ c.id }}, this)">
+                        {{ c.text }}
+                    </button>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="q_{{ q.id }}" id="input_q_{{ q.id }}">
+            </div>
+            {% empty %}
+            <div style="text-align: center; color: var(--text-color);">
+                <p>전문가 모드 질문이 아직 준비되지 않았습니다.</p>
+                <a href="{% url 'quiz_result' %}" style="color: var(--accent-color);">결과 페이지로 돌아가기</a>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+
+<script>
+    let currentStep = 0;
+    const totalSteps = parseInt("{{ questions|length }}");
+    const container = document.getElementById('quiz-container');
+    const cards = document.querySelectorAll('.question-card');
+    const progressFill = document.getElementById('progress-fill');
+    const form = document.getElementById('quiz-form');
+
+    function showCard(index) {
+        cards.forEach((card, i) => {
+            card.classList.remove('active', 'prev');
+            if (i === index) {
+                card.classList.add('active');
+            } else if (i < index) {
+                card.classList.add('prev');
+            }
+        });
+        updateProgress();
+    }
+
+    function updateProgress() {
+        if (totalSteps > 0) {
+            const pct = ((currentStep) / totalSteps) * 100;
+            progressFill.style.width = pct + '%';
+        }
+    }
+
+    function selectChoice(choiceId, btn) {
+        const currentCard = cards[currentStep];
+        const allBtns = currentCard.querySelectorAll('.choice-btn');
+        allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+        btn.style.background = 'rgba(229, 199, 131, 0.3)';
+        btn.style.borderColor = 'var(--title-color)';
+
+        const input = currentCard.querySelector('input[type="hidden"]');
+        input.value = choiceId;
+
+        setTimeout(() => {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                showCard(currentStep);
+            } else {
+                progressFill.style.width = '100%';
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            }
+        }, 400);
+    }
+
+    if (cards.length > 0) {
+        showCard(0);
+    }
+</script>
+{% endblock %}
