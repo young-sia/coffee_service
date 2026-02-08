@@ -204,26 +204,59 @@ def expert_result(request):
     scored_products.sort(key=lambda x: x[0])
     recommendations = [p for _, p in scored_products[:3]]
     
-    # Prepare chart data
-    chart_data = {
-        'labels': ['산미', '바디감', '단맛', '쓴맛', '향', '후미'],
-        'values': [
-            combined_scores['acidity'],
-            combined_scores['body'],
-            combined_scores['sweetness'],
-            combined_scores['bitterness'],
-            combined_scores['aroma'],
-            combined_scores['aftertaste']
-        ]
+    # Pentagon Radar Data (5 axes) - ensure all values are numbers
+    radar_data = {
+        'acidity': round(combined_scores.get('acidity', 0), 1),
+        'body': round(combined_scores.get('body', 0), 1),
+        'sweetness': round(combined_scores.get('sweetness', 0), 1),
+        'bitterness': round(combined_scores.get('bitterness', 0), 1),
+        'aroma': round(combined_scores.get('aroma', 0), 1)
     }
+    
+    # Generate interpretation
+    interpretation = generate_expert_interpretation(radar_data)
+    
+    # Convert radar_data to JSON for safe template rendering
+    import json
+    radar_data_json = json.dumps(radar_data)
     
     context = {
         'scores': combined_scores,
         'recommendations': recommendations,
-        'chart_data': chart_data,
+        'radar_data': radar_data,
+        'radar_data_json': radar_data_json,
+        'interpretation': interpretation,
         'is_expert_result': True,
     }
     return render(request, 'core/expert_result.html', context)
+
+def generate_expert_interpretation(radar_data):
+    """Generate professional interpretation of taste profile."""
+    # Find dominant characteristics
+    sorted_traits = sorted(radar_data.items(), key=lambda x: x[1], reverse=True)
+    top_trait = sorted_traits[0]
+    
+    trait_names = {
+        'acidity': '산미',
+        'body': '바디감',
+        'sweetness': '단맛',
+        'bitterness': '쓴맛',
+        'aroma': '향'
+    }
+    
+    trait_descriptions = {
+        'acidity': '밝고 생동감 있는 커피를 선호하시는군요. 과일향이 풍부한 싱글 오리진 커피가 잘 어울립니다.',
+        'body': '묵직하고 풍부한 질감의 커피를 즐기시는 분입니다. 다크 로스팅된 블렌드가 적합합니다.',
+        'sweetness': '부드럽고 달콤한 커피를 선호하십니다. 캐러멜 노트가 있는 미디엄 로스트를 추천합니다.',
+        'bitterness': '강렬하고 진한 커피를 좋아하시는군요. 에스프레소나 다크 로스트가 잘 맞습니다.',
+        'aroma': '향이 풍부한 커피에 민감하십니다. 플로럴하거나 과일향이 강한 커피를 즐기실 것입니다.'
+    }
+    
+    interpretation = f"당신의 커피 프로필은 {trait_names[top_trait[0]]}가 {top_trait[1]}/10으로 가장 두드러집니다. "
+    interpretation += trait_descriptions[top_trait[0]]
+    
+    return interpretation
+
 
 # Daily Recommendation Views
 from django.http import JsonResponse

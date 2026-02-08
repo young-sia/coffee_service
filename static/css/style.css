@@ -309,6 +309,8 @@ main {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    pointer-events: auto;
+    z-index: 101;
 }
 
 .nav-item.active {
