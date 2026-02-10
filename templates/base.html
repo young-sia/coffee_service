@@ -16,29 +16,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=9">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=12">
     <style>
         /* Base overrides if needed */
         body {
-            background-color: #f7f7f7;
-            /* Light gray background for the "phone" feel */
+            background-color: #000000;
+            /* Black background outside container */
             display: flex;
             justify-content: center;
-            /* Center on desktop */
+            /* Center the container horizontally */
+            align-items: flex-start;
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            /* Hide horizontal overflow */
         }
 
         main {
             background-color: var(--bg-color);
             width: 100%;
             max-width: 480px;
-            /* Mobile width */
+            /* Mobile container width */
             min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             position: relative;
             padding: 0;
-            /* Reset padding */
             margin: 0;
+            overflow: hidden;
+            /* Hide content outside container */
         }
     </style>
     {% block extra_css %}{% endblock %}

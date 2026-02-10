@@ -24,12 +24,8 @@
 }
 
 body {
-    background-image: url('../images/background.png');
-    /* Default Mobile BG */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #000000;
+    /* Black background outside container */
     color: var(--text-color);
     font-family: var(--body-font);
     margin: 0;
@@ -39,19 +35,17 @@ body {
     min-height: 100vh;
 }
 
-/* PC Background */
-@media (min-width: 768px) {
-    body {
-        background-image: url('../images/background_pc.png');
-    }
-}
-
 main {
     flex: 1;
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-image: url('../images/background.png');
+    /* Mobile background only */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 /* Header Top Row - Removed in this design */
