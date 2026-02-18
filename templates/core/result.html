@@ -104,123 +104,138 @@
         opacity: 0.6;
     }
 
-    /* Recommendations Section */
-    .recommendations-heading {
-        color: var(--title-color);
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 30px;
-    }
-
-    .recommendations-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    /* Personalized Recommendation Section */
+    .personal-rec-section {
+        margin: 40px auto;
         max-width: 400px;
-        margin: 0 auto 40px;
+        padding: 0 10px;
     }
 
-    /* Coffee Card (Tarot Style) */
-    .coffee-card {
+    .personal-rec-card {
         background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
         border: 2px solid var(--accent-color);
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-        transition: all 0.3s ease;
+        border-radius: 20px;
+        padding: 35px 25px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
         position: relative;
         overflow: hidden;
+        text-align: center;
     }
 
-    .coffee-card::before {
+    .personal-rec-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(192, 128, 96, 0.1), transparent);
-        transition: left 0.5s;
+        top: -60%;
+        left: -60%;
+        width: 220%;
+        height: 220%;
+        background: radial-gradient(circle, rgba(229, 199, 131, 0.07) 0%, transparent 65%);
+        animation: recGlow 4s ease-in-out infinite;
     }
 
-    .coffee-card:hover::before {
-        left: 100%;
+    @keyframes recGlow {
+
+        0%,
+        100% {
+            opacity: 0.5;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
     }
 
-    .coffee-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(192, 128, 96, 0.4);
-        border-color: var(--title-color);
-    }
-
-    .coffee-card-image {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
-
-    .coffee-card-placeholder {
-        width: 100%;
-        height: 200px;
-        background: #333;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #666;
-        margin-bottom: 15px;
-        font-size: 0.9rem;
-    }
-
-    .coffee-card-name {
+    .personal-rec-icon {
+        font-size: 3rem;
         color: var(--title-color);
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+        display: block;
     }
 
-    .coffee-card-description {
+    .personal-rec-title {
+        color: var(--title-color);
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+        position: relative;
+        z-index: 1;
+        letter-spacing: 1px;
+    }
+
+    .personal-rec-desc {
         color: var(--text-color);
         font-size: 0.95rem;
-        line-height: 1.5;
+        line-height: 1.7;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 1;
+        opacity: 0.9;
     }
 
-    /* Expert Mode Button */
-    .expert-mode-section {
-        margin: 50px auto;
-        max-width: 400px;
-    }
-
-    .expert-mode-prompt {
-        color: var(--text-color);
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-    }
-
-    .expert-mode-btn {
+    .personal-rec-btn {
         background: linear-gradient(135deg, var(--accent-color), var(--title-color));
         border: none;
         color: #000;
-        padding: 15px 40px;
+        padding: 14px 36px;
         border-radius: 25px;
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.3s ease;
         box-shadow: 0 5px 20px rgba(192, 128, 96, 0.4);
         text-decoration: none;
         display: inline-block;
+        position: relative;
+        z-index: 1;
     }
 
-    .expert-mode-btn:hover {
+    .personal-rec-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(192, 128, 96, 0.6);
+        box-shadow: 0 8px 30px rgba(229, 199, 131, 0.6);
     }
 
-    .expert-mode-btn:active {
+    .personal-rec-btn:active {
         transform: translateY(-1px);
+    }
+
+    .personal-rec-btn-outline {
+        background: transparent;
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+        padding: 14px 24px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .personal-rec-btn-outline:hover {
+        background: rgba(192, 128, 96, 0.15);
+        border-color: var(--title-color);
+        color: var(--title-color);
+        transform: translateY(-3px);
+    }
+
+    .personal-rec-btn-outline:active {
+        transform: translateY(-1px);
+    }
+
+    .personal-rec-btn-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
     }
 
     /* Retry Button */
@@ -436,35 +451,28 @@
         </div>
     </div>
 
-    <!-- Recommendations -->
-    <h2 class="recommendations-heading animate-merge" style="animation-delay: 0.4s;">추천 커피</h2>
-    <div class="recommendations-container">
-        {% for p in recommendations %}
-        <div class="coffee-card animate-merge"
-            style="animation-delay: {{ forloop.counter|add:4|stringformat:'d' }}00ms;">
-            {% if p.image %}
-            <img src="{{ p.image.url }}" alt="{{ p.name }}" class="coffee-card-image">
-            {% else %}
-            <div class="coffee-card-placeholder">
-                <i class="fa-solid fa-mug-hot" style="font-size: 3rem; color: var(--accent-color);"></i>
+    <!-- Personalized Coffee Recommendation -->
+    <div class="personal-rec-section animate-merge" style="animation-delay: 0.4s;">
+        <div class="personal-rec-card">
+            <i class="fa-solid fa-wand-magic-sparkles personal-rec-icon"></i>
+            <h3 class="personal-rec-title">당신만의 커피 추천받기</h3>
+            <p class="personal-rec-desc">
+                오늘의 추천을 바로 받거나,<br>
+                전문가 질문지로 더 정밀하게 분석해 보세요.
+            </p>
+            <div class="personal-rec-btn-row">
+                <a href="{% url 'daily_recommendation' %}" class="personal-rec-btn-outline">
+                    <i class="fa-solid fa-glass-water" style="margin-right: 6px;"></i>오늘의 추천
+                </a>
+                <a href="{% url 'expert_quiz' %}" class="personal-rec-btn">
+                    <i class="fa-solid fa-flask" style="margin-right: 6px;"></i>전문가 질문지
+                </a>
             </div>
-            {% endif %}
-            <h4 class="coffee-card-name">{{ p.name }}</h4>
-            <p class="coffee-card-description">{{ p.description }}</p>
         </div>
-        {% empty %}
-        <p style="color: var(--text-color);">아직 등록된 커피 데이터가 없습니다.</p>
-        {% endfor %}
-    </div>
-
-    <!-- Expert Mode Section -->
-    <div class="expert-mode-section animate-merge" style="animation-delay: 0.8s;">
-        <p class="expert-mode-prompt">더 자세히 알아볼까요?</p>
-        <a href="{% url 'expert_quiz' %}" class="expert-mode-btn">전문가 모드 시작하기</a>
     </div>
 
     <!-- Retry Button -->
-    <div>
+    <div style="text-align: center; margin-bottom: 20px;">
         <a href="{% url 'quiz' %}" class="retry-btn">다시 하기</a>
     </div>
 </div>

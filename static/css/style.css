@@ -138,7 +138,12 @@ main {
 
 .circular-btn:hover {
     transform: scale(1.05);
-    background-color: rgba(192, 128, 96, 0.1);
+    background-color: #000000;
+}
+
+.circular-btn:active {
+    transform: scale(0.97);
+    background-color: #000000;
 }
 
 .circular-btn-label {
