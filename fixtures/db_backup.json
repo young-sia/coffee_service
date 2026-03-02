@@ -1,0 +1,1274 @@
+[
+{
+  "model": "core.category",
+  "pk": 1,
+  "fields": {
+    "name": "Beverage",
+    "parent": null
+  }
+},
+{
+  "model": "core.category",
+  "pk": 2,
+  "fields": {
+    "name": "Coffee",
+    "parent": 1
+  }
+},
+{
+  "model": "core.category",
+  "pk": 3,
+  "fields": {
+    "name": "Americano",
+    "parent": 2
+  }
+},
+{
+  "model": "core.flavorprofile",
+  "pk": 1,
+  "fields": {
+    "acidity": 5,
+    "body": 2,
+    "sweetness": 4,
+    "bitterness": 1,
+    "aroma": 5,
+    "aftertaste": 4
+  }
+},
+{
+  "model": "core.flavorprofile",
+  "pk": 2,
+  "fields": {
+    "acidity": 2,
+    "body": 4,
+    "sweetness": 3,
+    "bitterness": 3,
+    "aroma": 3,
+    "aftertaste": 3
+  }
+},
+{
+  "model": "core.flavorprofile",
+  "pk": 3,
+  "fields": {
+    "acidity": 4,
+    "body": 4,
+    "sweetness": 3,
+    "bitterness": 2,
+    "aroma": 4,
+    "aftertaste": 4
+  }
+},
+{
+  "model": "core.flavorprofile",
+  "pk": 4,
+  "fields": {
+    "acidity": 1,
+    "body": 3,
+    "sweetness": 2,
+    "bitterness": 2,
+    "aroma": 2,
+    "aftertaste": 2
+  }
+},
+{
+  "model": "core.flavorprofile",
+  "pk": 5,
+  "fields": {
+    "acidity": 1,
+    "body": 5,
+    "sweetness": 2,
+    "bitterness": 5,
+    "aroma": 3,
+    "aftertaste": 5
+  }
+},
+{
+  "model": "core.product",
+  "pk": 1,
+  "fields": {
+    "name": "에티오피아 예가체프",
+    "category": 2,
+    "flavor_profile": 1,
+    "description": "꽃향기와 상큼한 산미가 특징인 커피",
+    "price": 0,
+    "image": ""
+  }
+},
+{
+  "model": "core.product",
+  "pk": 2,
+  "fields": {
+    "name": "과테말라 안티구아",
+    "category": 2,
+    "flavor_profile": 2,
+    "description": "스모키한 향과 묵직한 바디감",
+    "price": 0,
+    "image": ""
+  }
+},
+{
+  "model": "core.product",
+  "pk": 3,
+  "fields": {
+    "name": "케냐 AA",
+    "category": 2,
+    "flavor_profile": 3,
+    "description": "강렬한 산미와 무거운 바디감의 조화",
+    "price": 0,
+    "image": ""
+  }
+},
+{
+  "model": "core.product",
+  "pk": 4,
+  "fields": {
+    "name": "브라질 산토스",
+    "category": 2,
+    "flavor_profile": 4,
+    "description": "부드러운 맛과 고소함, 낮은 산미",
+    "price": 0,
+    "image": ""
+  }
+},
+{
+  "model": "core.product",
+  "pk": 5,
+  "fields": {
+    "name": "인도네시아 만델링",
+    "category": 2,
+    "flavor_profile": 5,
+    "description": "진한 쓴맛과 묵직한 바디감, 남성적인 커피",
+    "price": 0,
+    "image": ""
+  }
+},
+{
+  "model": "core.question",
+  "pk": 13,
+  "fields": {
+    "text": "아침에 눈을 떴을 때, 보통 어떤 편이에요?",
+    "order": 1,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 14,
+  "fields": {
+    "text": "음식이나 음료를 고를 때, 더 자주 끌리는 쪽은요?",
+    "order": 2,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 15,
+  "fields": {
+    "text": "카페에서 메뉴를 고를 때는 보통 어떤 편인가요?",
+    "order": 3,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 16,
+  "fields": {
+    "text": "커피를 마시는 순간을 떠올리면 더 가까운 건요?",
+    "order": 4,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 17,
+  "fields": {
+    "text": "추천받은 메뉴가 생각과 달랐을 때는요?",
+    "order": 5,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 18,
+  "fields": {
+    "text": "커피를 마시고 나서 가장 좋게 느껴지는 순간은요?",
+    "order": 6,
+    "image": "",
+    "is_expert": false,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 19,
+  "fields": {
+    "text": "커피에서 산미가 분명하게 느껴질수록 매력적이라고 생각한다.",
+    "order": 1,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 20,
+  "fields": {
+    "text": "과일이나 꽃 같은 밝은 향미가 또렷한 커피를 선호한다.",
+    "order": 2,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 21,
+  "fields": {
+    "text": "쓴맛이 커피의 전체 인상을 단단하게 잡아준다고 느낀다.",
+    "order": 3,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 22,
+  "fields": {
+    "text": "설탕이나 우유 없이도 블랙으로 마셨을 때 완성도가 높은 커피가 좋다.",
+    "order": 4,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 23,
+  "fields": {
+    "text": "커피를 마셨을 때 입안에서 느껴지는 질감(바디감)이 중요하다.",
+    "order": 5,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 24,
+  "fields": {
+    "text": "한 모금을 넘긴 뒤에도 맛과 향이 오래 남는 편이 좋다.",
+    "order": 6,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 25,
+  "fields": {
+    "text": "초콜릿, 견과류, 카라멜 같은 단맛의 뉘앙스가 느껴지는 커피를 좋아한다.",
+    "order": 7,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 26,
+  "fields": {
+    "text": "특정 맛이 튀기보다 전체적으로 균형 잡힌 커피가 가장 편하게 느껴진다.",
+    "order": 8,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 27,
+  "fields": {
+    "text": "진한 커피가 오히려 부담 없이 안정적으로 느껴진다.",
+    "order": 9,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.question",
+  "pk": 28,
+  "fields": {
+    "text": "커피를 마신 뒤 입안이 깔끔하게 정리되는 느낌을 중요하게 여긴다.",
+    "order": 10,
+    "image": "",
+    "is_expert": true,
+    "question_type": "multiple_choice"
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 35,
+  "fields": {
+    "question": 13,
+    "text": "바로 정신이 드는 편",
+    "acidity_score": 3,
+    "body_score": 1,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 2,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 36,
+  "fields": {
+    "question": 13,
+    "text": "멍한 시간이 조금 필요해요",
+    "acidity_score": 0,
+    "body_score": 3,
+    "sweetness_score": 2,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 37,
+  "fields": {
+    "question": 13,
+    "text": "그날그날 달라요",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 38,
+  "fields": {
+    "question": 14,
+    "text": "상큼해서 계속 들어가는 맛",
+    "acidity_score": 3,
+    "body_score": 1,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 3,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 39,
+  "fields": {
+    "question": 14,
+    "text": "편안하고 익숙한 맛",
+    "acidity_score": 1,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 40,
+  "fields": {
+    "question": 14,
+    "text": "달거나 진해서 만족감이 큰 맛",
+    "acidity_score": 0,
+    "body_score": 3,
+    "sweetness_score": 3,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 41,
+  "fields": {
+    "question": 15,
+    "text": "늘 비슷한 걸 고르는 편",
+    "acidity_score": 1,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 42,
+  "fields": {
+    "question": 15,
+    "text": "가끔 다른 걸 시도해봐요",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 43,
+  "fields": {
+    "question": 15,
+    "text": "새로운 게 있으면 한 번쯤은 꼭",
+    "acidity_score": 3,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 3,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 44,
+  "fields": {
+    "question": 16,
+    "text": "혼자 조용히 집중할 때",
+    "acidity_score": 1,
+    "body_score": 3,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 45,
+  "fields": {
+    "question": 16,
+    "text": "잠깐 쉬는 시간",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 46,
+  "fields": {
+    "question": 16,
+    "text": "사람들과 이야기하면서",
+    "acidity_score": 3,
+    "body_score": 1,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 3,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 47,
+  "fields": {
+    "question": 17,
+    "text": "다음엔 안 고를 것 같아요",
+    "acidity_score": 1,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 48,
+  "fields": {
+    "question": 17,
+    "text": "그냥 그런 날도 있다고 생각해요",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 49,
+  "fields": {
+    "question": 17,
+    "text": "경험으로 받아들이는 편이에요",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 3,
+    "aroma_score": 3,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 50,
+  "fields": {
+    "question": 18,
+    "text": "맛이 또렷하게 느껴질 때",
+    "acidity_score": 3,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 3,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 51,
+  "fields": {
+    "question": 18,
+    "text": "향이나 분위기가 좋을 때",
+    "acidity_score": 2,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 3,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 52,
+  "fields": {
+    "question": 18,
+    "text": "마신 뒤 기분이 괜찮을 때",
+    "acidity_score": 1,
+    "body_score": 2,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 53,
+  "fields": {
+    "question": 19,
+    "text": "매우 그렇다",
+    "acidity_score": 3,
+    "body_score": 0,
+    "sweetness_score": 0,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 54,
+  "fields": {
+    "question": 19,
+    "text": "그렇다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 0,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 55,
+  "fields": {
+    "question": 19,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 56,
+  "fields": {
+    "question": 19,
+    "text": "아니다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 0,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 57,
+  "fields": {
+    "question": 19,
+    "text": "전혀 아니다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 3,
+    "aroma_score": 0,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 58,
+  "fields": {
+    "question": 20,
+    "text": "매우 그렇다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 3,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 59,
+  "fields": {
+    "question": 20,
+    "text": "그렇다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 60,
+  "fields": {
+    "question": 20,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 61,
+  "fields": {
+    "question": 20,
+    "text": "아니다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 62,
+  "fields": {
+    "question": 20,
+    "text": "전혀 아니다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 0,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 63,
+  "fields": {
+    "question": 21,
+    "text": "매우 그렇다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 0,
+    "bitterness_score": 3,
+    "aroma_score": 1,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 64,
+  "fields": {
+    "question": 21,
+    "text": "그렇다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 0,
+    "bitterness_score": 2,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 65,
+  "fields": {
+    "question": 21,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 66,
+  "fields": {
+    "question": 21,
+    "text": "아니다",
+    "acidity_score": 1,
+    "body_score": 0,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 67,
+  "fields": {
+    "question": 21,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 2,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 68,
+  "fields": {
+    "question": 22,
+    "text": "매우 그렇다",
+    "acidity_score": 2,
+    "body_score": 1,
+    "sweetness_score": 0,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 69,
+  "fields": {
+    "question": 22,
+    "text": "그렇다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 0,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 70,
+  "fields": {
+    "question": 22,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 71,
+  "fields": {
+    "question": 22,
+    "text": "아니다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 0,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 72,
+  "fields": {
+    "question": 22,
+    "text": "전혀 아니다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 3,
+    "bitterness_score": 0,
+    "aroma_score": 0,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 73,
+  "fields": {
+    "question": 23,
+    "text": "매우 그렇다",
+    "acidity_score": 0,
+    "body_score": 3,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 0,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 74,
+  "fields": {
+    "question": 23,
+    "text": "그렇다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 0,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 75,
+  "fields": {
+    "question": 23,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 76,
+  "fields": {
+    "question": 23,
+    "text": "아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 77,
+  "fields": {
+    "question": 23,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 78,
+  "fields": {
+    "question": 24,
+    "text": "매우 그렇다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 3
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 79,
+  "fields": {
+    "question": 24,
+    "text": "그렇다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 80,
+  "fields": {
+    "question": 24,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 81,
+  "fields": {
+    "question": 24,
+    "text": "아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 82,
+  "fields": {
+    "question": 24,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 83,
+  "fields": {
+    "question": 25,
+    "text": "매우 그렇다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 3,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 84,
+  "fields": {
+    "question": 25,
+    "text": "그렇다",
+    "acidity_score": 0,
+    "body_score": 1,
+    "sweetness_score": 2,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 85,
+  "fields": {
+    "question": 25,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 86,
+  "fields": {
+    "question": 25,
+    "text": "아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 0,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 87,
+  "fields": {
+    "question": 25,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 0,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 88,
+  "fields": {
+    "question": 26,
+    "text": "매우 그렇다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 89,
+  "fields": {
+    "question": 26,
+    "text": "그렇다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 90,
+  "fields": {
+    "question": 26,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 91,
+  "fields": {
+    "question": 26,
+    "text": "아니다",
+    "acidity_score": 2,
+    "body_score": 1,
+    "sweetness_score": 0,
+    "bitterness_score": 1,
+    "aroma_score": 2,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 92,
+  "fields": {
+    "question": 26,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 1,
+    "sweetness_score": 0,
+    "bitterness_score": 2,
+    "aroma_score": 2,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 93,
+  "fields": {
+    "question": 27,
+    "text": "매우 그렇다",
+    "acidity_score": 0,
+    "body_score": 3,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 1,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 94,
+  "fields": {
+    "question": 27,
+    "text": "그렇다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 95,
+  "fields": {
+    "question": 27,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 96,
+  "fields": {
+    "question": 27,
+    "text": "아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 97,
+  "fields": {
+    "question": 27,
+    "text": "전혀 아니다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 2,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 98,
+  "fields": {
+    "question": 28,
+    "text": "매우 그렇다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 0
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 99,
+  "fields": {
+    "question": 28,
+    "text": "그렇다",
+    "acidity_score": 2,
+    "body_score": 0,
+    "sweetness_score": 1,
+    "bitterness_score": 0,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 100,
+  "fields": {
+    "question": 28,
+    "text": "보통이다",
+    "acidity_score": 1,
+    "body_score": 1,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 1
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 101,
+  "fields": {
+    "question": 28,
+    "text": "아니다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 1,
+    "aroma_score": 1,
+    "aftertaste_score": 2
+  }
+},
+{
+  "model": "core.choice",
+  "pk": 102,
+  "fields": {
+    "question": 28,
+    "text": "전혀 아니다",
+    "acidity_score": 0,
+    "body_score": 2,
+    "sweetness_score": 1,
+    "bitterness_score": 2,
+    "aroma_score": 1,
+    "aftertaste_score": 3
+  }
+}
+]
